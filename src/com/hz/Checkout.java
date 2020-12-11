@@ -1,19 +1,24 @@
 package com.hz;
 
+import products.Product;
+
 public class Checkout {
 
-    private SalesAction salesAction;
+    public void nextInLine(Customer customer, String day) {
 
-    public Checkout(SalesAction action) {
-        this.salesAction = action;
-    }
+        DiscountStrategy strategy;
 
-    public void nextInLine(Customer customer) {
 
         // init checkout
-        DiscountCalculator discountCalculator = new DiscountCalculator(customer);
-        if(salesAction == SalesAction.ChristmasEve) {
-            discountCalculator.setChristmasEve(true);
+        switch (day) {
+            case "Christmas":
+                strategy = new ChristmasDiscount(customer);
+                break;
+            case "Black Friday":
+                strategy = new BlackFridayDiscount(customer);
+                break;
+            default:
+                strategy = new RegularDiscount(customer);
         }
 
         // Welcome customer
@@ -24,7 +29,7 @@ public class Checkout {
         // perform checkout
         ShoppingCart cart = customer.getCart();
 
-        double amountToPay = cart.getTotalPrice(discountCalculator);
+        double amountToPay = cart.getTotalPrice(strategy);
         String payinfo = String.format("Let's see, that will be.. %.02f. Cash or card?", amountToPay);
         Console.write(payinfo);
     }

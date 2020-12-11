@@ -2,17 +2,18 @@ package com.hz;
 
 import products.Product;
 
-public class DiscountCalculator {
+public class ChristmasDiscount implements DiscountStrategy {
 
     private Customer customer;
 
     public void setChristmasEve(boolean christmasEve) {
+
         isChristmasEve = christmasEve;
     }
 
     private boolean isChristmasEve;
 
-    public DiscountCalculator(Customer customer) {
+    public ChristmasDiscount(Customer customer) {
         this.customer = customer;
     }
 
@@ -23,21 +24,12 @@ public class DiscountCalculator {
         boolean isFirstProduct = index == 0;
 
         // on Christmas Eve, 1st product 20%, the next 12.5% discount
-        if(isChristmasEve) {
-
-            if(isFirstProduct) {
-                discount = .20;
-            } else {
-                discount = .125;
-            }
-
+        if (isFirstProduct) {
+            discount = .20;
+        } else {
+            discount = .125;
         }
-
-        // Default situation: new customers full price, regular 15% off
-        else if(customer.isRegular()) {
-            discount = .15;
-        }
-
         return 1 - discount;
     }
+
 }

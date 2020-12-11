@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class ShoppingCart extends ArrayList<Product> {
 
-    public double getTotalPrice(DiscountCalculator discountCalculator) {
+    public double getTotalPrice(DiscountStrategy strategy) {
 
         double totalPrice = 0.0;
 
@@ -13,7 +13,7 @@ public class ShoppingCart extends ArrayList<Product> {
 
             int index = this.indexOf(product);
 
-            double discount = discountCalculator.getDiscount(product, index);
+            double discount = strategy.getDiscount(product, index);
             double price = product.getPrice() * discount;
 
             totalPrice += price;
